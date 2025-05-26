@@ -1,0 +1,101 @@
+from ursina import *
+from ursina.prefabs.first_person_controller import FirstPersonController
+import json
+from pathlib import Path
+
+app = Ursina()
+application.asset_folder = Path(__file__).parent
+
+# Environment setup
+Sky()
+DirectionalLight(rotation=(45, -45, 45), color=color.white)
+ground = Entity(model='plane', texture='white_cube', scale=100, y=0.01, color=color.lime, collider='box')
+
+
+maze = Entity(
+    model='maze (1).obj',
+    position=(0, -1, 0),
+    scale=1,
+    collider='mesh',
+    color=color.azure
+)
+
+
+player = FirstPersonController(
+    position=(0, 2, -10),
+    speed=5,
+    jump_height=2,
+    gravity=1
+)
+player.visible = False
+
+score = 0
+score_text = Text(text=f'Score: {score}', position=(-0.85, 0.45), scale=2, background=True)
+max_health = 100
+current_health = 100
+health_bar_bg = Entity(model='quad', scale=(0.5, 0.05), color=color.red, position=(0.7, 0.45), parent=camera.ui)
+health_bar = Entity(model='quad', scale=(0.5, 0.05), color=color.green, position=(0.7, 0.45), parent=camera.ui)
+
+coin_positions = [(0,1,0), (2,1,0), (4,1,0), (4,1,2), (4,1,4), (6,1,4), (8,1,4), (10,1,4)]
+coins = []
+for i, pos in enumerate(coin_positions):
+    coin = Entity(model='sphere', scale=0.5, color=color.gold, position=pos, collider='box', name=f'coin_{i}')
+    coins.append(coin)
+
+# Arrow at the exi
+
+interaction_text = Text(text='Press E to collect', position=(0, 1, 0), visible=False, billboard=True)
+
+# Save and Load functions
+def save_game():
+    data = {
+        'position': [player.x, player.y, player.z],
+        'score': score,
+        'health': current_health
+    }
+    with open('savegame.json', 'w') as f:
+        json.dump(data, f)
+    print("Game saved.")
+
+def load_game():
+    global score, current_health
+    try:
+        with open('savegame.json', 'r') as f:
+            data = json.load(f)
+            player.position = Vec3(*data['position'])
+            score = data['score']
+            current_health = data['health']
+            score_text.text = f"Score: {score}"
+            health_bar.scale_x = (current_health / max_health) * 0.5
+            print("Game loaded.")
+    except:
+        print("No save file found.")
+
+# Game logic
+def update():
+    global score, current_health
+
+    interaction_text.visible = False
+    for c in coins:
+        if c.enabled and distance(player.position, c.position) < 2:
+            interaction_text.text = 'Press E to collect'
+            interaction_text.parent = c
+            interaction_text.visible = True
+            if held_keys['e']:
+                score += 5
+                score_text.text = f"Score: {score}"
+                c.disable()
+                interaction_text.visible = False
+            break
+
+    if score > 0 and current_health > 0:
+        current_health -= time.dt * 5
+        health_ratio = current_health / max_health
+        health_bar.scale_x = health_ratio * 0.5
+
+    if held_keys['f5']:
+        save_game()
+    if held_keys['f9']:
+        load_game()
+
+app.run()
