@@ -9,25 +9,24 @@ Maze Runner is a 3D maze game where the player must navigate through a maze and 
 
 1.  Install Python 3.8 or later from the official Python website.
 2.  Install the required libraries by running the following command in your terminal:
-'''bash
-pip install pygame
-pip install ursina
-'''
+
+      pip install pygame
+     pip install ursina
+
 3.  Clone this repository using the following command:
 
- '''bash
+
 git clone https://github.com/MohammadAathiya/2D_GAME.git
-'''
+
 4.  Navigate to the repository directory:
 
-  '''bash  
+
 cd  2D_GAME(your-repo-name)
-'''
+
 5.  Run the game using the following command:
 
-    '''bash  
+
 python maze_runner.py
-'''
 
 **Controls**
 ------------
@@ -52,25 +51,25 @@ Catch Me If You Can is a 2D game where two players must chase each other in a ma
 
 1.  Install Python 3.8 or later from the official Python website.
 2.  Install the required libraries by running the following command in your terminal:
-  '''bash  
+
   
 pip install pygame
-'''
+
 3.  Clone this repository using the following command:
 
- '''bash  
+
 git clone https://github.com/MohammadAathiya/2D_GAME.git
-'''
+
 4.  Navigate to the repository directory:
 
-  '''bash  
+
 cd your-repo-name
-'''
+
 5.  Run the game using the following command:
 
-   '''bash  
+ 
 python catch_me_if_you_can.py
-'''
+
 
 **Controls**
 ------------
@@ -93,24 +92,24 @@ Maze Muncher is a 2D maze game where the player must navigate through a maze and
 1.  Install Python 3.8 or later from the official Python website.
 2.  Install the required libraries by running the following command in your terminal:
 
-  '''bash  
+
 pip install pygame
-'''
+
 3.  Clone this repository using the following command:
 
-  '''bash  
+
 git clone https://github.com/MohammadAathiya/2D_GAME.git
-'''
+
 4.  Navigate to the repository directory:
 
-  '''bash  
+  
 cd 2D_GAME
-'''
+
 5.  Run the game using the following command:
 
-  '''bash  
+   
 python maze_muncher.py
-'''
+
 
 **Controls**
 ------------
